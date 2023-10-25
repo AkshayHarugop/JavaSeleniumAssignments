@@ -17,17 +17,25 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import Utilities.browserRelated;
 import Utilities.keys;
 import Utilities.loginRelated;
 
-public class Test14 {
+public class herokuAppPage {
 	static WebDriver driver;
 	static WebDriverWait wait;
 	static ArrayList<String> Window;
+	
+	@BeforeMethod
+	public void method() throws InterruptedException {
+		Thread.sleep(5000);
+		System.out.println("This method will be invoked before every test method");  
+	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		System.out.println("Start");
 		driver = loginRelated.herokuappLogin();
 		wait = loginRelated.wait(driver);
@@ -39,13 +47,18 @@ public class Test14 {
 		checkBoxes();
 		contextMenu();
 		digestAuthentication();
+		Thread.sleep(5000);
 		disappearingElements();
+		Thread.sleep(5000);
 		dragAndDrop();
+		Thread.sleep(5000);
 		dropDown();
 		dynamicContent();
 		dynamicControls();
 		dynamicLoading();
+		Thread.sleep(5000);
 		entryAd();
+		Thread.sleep(5000);
 		exitIntent(); // need to check one more time
 		fileDownload();
 		fileUpload();
@@ -184,8 +197,10 @@ public class Test14 {
 		driver.findElement(By.xpath("//div[@id='start']/button")).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='loading'][text()='Loading... ']")));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[text()='Hello World!']")));
-		driver.close();
 		
+		driver.close();
+		driver.switchTo().window(Window.get(1));
+		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
@@ -339,6 +354,7 @@ public class Test14 {
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
+	@Test
 	private static void basicAuth() {
 //		String name = driver.findElement(By.xpath("(//div[@id='content']/ul/li/a)[3]")).getText();
 		driver.findElement(By.xpath("//a[text()='Basic Auth']")).sendKeys(keys.ctlrClick(driver));
@@ -354,10 +370,11 @@ public class Test14 {
         ((HasAuthentication)driver).register(UsernameAndPassword.of("admin", "admin"));
         driver.get("https://the-internet.herokuapp.com/basic_auth");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")));
-        driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+        driver.close();
+		driver.switchTo().window(browserRelated.parentWindow(driver));
 	}
 
-	
+	@Test
 	private static void addRemoveElements() {
 //		Window.clear();
 		String name = driver.findElement(By.xpath("(//div[@id='content']/ul/li/a)[2]")).getText();
@@ -377,7 +394,8 @@ public class Test14 {
 		driver.close();
 		driver.switchTo().window(browserRelated.parentWindow(driver));
 	}
-
+	
+	@Test
 	private static void ABTesting() {
 		driver.findElement(By.xpath("//a[text()='A/B Testing']")).sendKeys(keys.ctlrClick(driver));
 		ArrayList<String> Window =  browserRelated.multiWindowHandling(driver);
