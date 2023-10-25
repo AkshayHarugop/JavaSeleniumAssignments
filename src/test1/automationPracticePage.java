@@ -17,7 +17,7 @@ import Utilities.browserRelated;
 import Utilities.keys;
 import Utilities.loginRelated;
 
-public class Test12 {
+public class automationPracticePage {
 	static WebDriver driver;
 	static WebDriverWait wait;
 
