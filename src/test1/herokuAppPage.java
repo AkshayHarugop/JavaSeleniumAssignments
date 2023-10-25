@@ -28,11 +28,11 @@ public class herokuAppPage {
 	static WebDriver driver;
 	static WebDriverWait wait;
 	static ArrayList<String> Window;
-	
+
 	@BeforeMethod
 	public void method() throws InterruptedException {
 		Thread.sleep(5000);
-		System.out.println("This method will be invoked before every test method");  
+		System.out.println("This method will be invoked before every test method");
 	}
 
 	public static void main(String[] args) throws InterruptedException {
@@ -64,9 +64,57 @@ public class herokuAppPage {
 		fileUpload();
 		floatingMenu();
 		forgotPassword();
-		formAuthentication();
+		formAuthentication();	
+		frames();
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void frames() {
+		driver.findElement(By.xpath("//a[text()='Frames']")).sendKeys(keys.ctlrClick(driver));
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Frames']")));
+		List<WebElement> links = driver.findElements(By.xpath("//div[@class='example']//a"));
+		for (WebElement link : links) {
+			link.sendKeys(keys.ctlrClick(driver));
+		}
+		ArrayList<String> Window1 = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window1.get(2));
+
+		// iFrame
+		wait.until(ExpectedConditions.visibilityOfElementLocated(
+				By.xpath("//h3[text()='An iFrame containing the TinyMCE WYSIWYG Editor']")));
+		driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@id='mce_0_ifr']")));
+		Actions action = new Actions(driver);
+		driver.findElement(By.xpath("//body[@id='tinymce']")).clear();
+		action.moveToElement(driver.findElement(By.xpath("//body[@id='tinymce']"))).click().sendKeys("Hello World!")
+				.build().perform();
+		driver.switchTo().window(Window1.get(2));
+		driver.close();
+
+		// Nested frame
+		driver.switchTo().window(Window1.get(3));
+		driver.switchTo().frame("frame-top");
+		driver.switchTo().frame("frame-left");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//body[contains(text(),'LEFT')]")));
+		driver.switchTo().window(Window1.get(3));
+		driver.switchTo().frame("frame-top");
+		driver.switchTo().frame("frame-middle");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'MIDDLE')]")));
+		driver.switchTo().window(Window1.get(3));
+		driver.switchTo().frame("frame-top");
+		driver.switchTo().frame("frame-right");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//body[contains(text(),'RIGHT')]")));
+		driver.switchTo().window(Window1.get(3));
+		driver.switchTo().frame("frame-bottom");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//body[contains(text(),'BOTTOM')]")));
+		driver.switchTo().window(Window1.get(3));
+		driver.close();
+
+		driver.switchTo().window(Window.get(1));
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void formAuthentication() {
@@ -77,7 +125,8 @@ public class herokuAppPage {
 		driver.findElement(By.id("username")).sendKeys("admin");
 		driver.findElement(By.id("password")).sendKeys("admin");
 		driver.findElement(By.xpath("//button[@type='submit']/i")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='flash'][contains(text(),'Your username is invalid!')]")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(
+				By.xpath("//div[@id='flash'][contains(text(),'Your username is invalid!')]")));
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
@@ -99,16 +148,20 @@ public class herokuAppPage {
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Floating Menu']")));
-		JavascriptExecutor jse = (JavascriptExecutor)driver;
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
 		jse.executeScript("window.scrollBy(0,500)");
 		Actions action = new Actions(driver);
-		action.moveToElement(driver.findElement(By.xpath("//div[@id='menu']//li/a[text()='Home']"))).click().build().perform();
+		action.moveToElement(driver.findElement(By.xpath("//div[@id='menu']//li/a[text()='Home']"))).click().build()
+				.perform();
 		jse.executeScript("window.scrollBy(0,500)");
-		action.moveToElement(driver.findElement(By.xpath("//div[@id='menu']//li/a[text()='News']"))).click().build().perform();
+		action.moveToElement(driver.findElement(By.xpath("//div[@id='menu']//li/a[text()='News']"))).click().build()
+				.perform();
 		jse.executeScript("window.scrollBy(0,500)");
-		action.moveToElement(driver.findElement(By.xpath("//div[@id='menu']//li/a[text()='Contact']"))).click().build().perform();
+		action.moveToElement(driver.findElement(By.xpath("//div[@id='menu']//li/a[text()='Contact']"))).click().build()
+				.perform();
 		jse.executeScript("window.scrollBy(0,500)");
-		action.moveToElement(driver.findElement(By.xpath("//div[@id='menu']//li/a[text()='About']"))).click().build().perform();
+		action.moveToElement(driver.findElement(By.xpath("//div[@id='menu']//li/a[text()='About']"))).click().build()
+				.perform();
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
@@ -134,10 +187,10 @@ public class herokuAppPage {
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='File Downloader']")));
 		List<WebElement> hyperLinks = driver.findElements(By.xpath("//div[@class='example']/a"));
-		for(WebElement hyperLink : hyperLinks) {
+		for (WebElement hyperLink : hyperLinks) {
 			hyperLink.click();
 		}
-		
+
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
@@ -147,7 +200,7 @@ public class herokuAppPage {
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Exit Intent']")));
-		
+
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
@@ -164,7 +217,7 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='This is a modal window']")));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='modal-footer']/p")));
 		driver.findElement(By.xpath("//div[@class='modal-footer']/p")).click();
-		
+
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
@@ -173,31 +226,38 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//a[text()='Dynamic Loading']")).sendKeys(keys.ctlrClick(driver));
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Dynamically Loaded Page Elements']")));
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("//h3[text()='Dynamically Loaded Page Elements']")));
 		List<WebElement> links = driver.findElements(By.cssSelector("div.example a"));
-		for(WebElement link : links) {
+		for (WebElement link : links) {
 			link.sendKeys(keys.ctlrClick(driver));
 		}
 		ArrayList<String> Window1 = browserRelated.multiWindowHandling(driver);
-		for(int i=0;i<Window1.size();i++) {
+		for (int i = 0; i < Window1.size(); i++) {
 			driver.switchTo().window(Window1.get(i));
 		}
-		
+
 		driver.switchTo().window(Window1.get(2));
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Dynamically Loaded Page Elements']")));
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[text()='Example 2: Element rendered after the fact']")));
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("//h3[text()='Dynamically Loaded Page Elements']")));
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("//h4[text()='Example 2: Element rendered after the fact']")));
 		driver.findElement(By.xpath("//div[@id='start']/button")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='loading'][text()='Loading... ']")));
+		wait.until(
+				ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='loading'][text()='Loading... ']")));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[text()='Hello World!']")));
 		driver.close();
-		
+
 		driver.switchTo().window(Window1.get(3));
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Dynamically Loaded Page Elements']")));
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[text()='Example 1: Element on page that is hidden']")));
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("//h3[text()='Dynamically Loaded Page Elements']")));
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("//h4[text()='Example 1: Element on page that is hidden']")));
 		driver.findElement(By.xpath("//div[@id='start']/button")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='loading'][text()='Loading... ']")));
+		wait.until(
+				ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='loading'][text()='Loading... ']")));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[text()='Hello World!']")));
-		
+
 		driver.close();
 		driver.switchTo().window(Window.get(1));
 		driver.close();
@@ -211,17 +271,21 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[text()='Dynamic Controls']")));
 		driver.findElement(By.xpath("//form[@id='checkbox-example']//input[@type='checkbox']")).click();
 		driver.findElement(By.xpath("//button[@type='button'][text()='Remove']")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='loading'][text()='Wait for it... ']")));
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("//div[@id='loading'][text()='Wait for it... ']")));
 //		System.out.println(driver.findElement(By.xpath("//p[@id='message']")).getText());
 		Assert.assertEquals("It's gone!", driver.findElement(By.xpath("//p[@id='message']")).getText());
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@type='text'][@disabled='']")));
 		driver.findElement(By.xpath("//button[@type='button'][text()='Enable']")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@id='loading'][text()='Wait for it... '])[2]")));
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("(//div[@id='loading'][text()='Wait for it... '])[2]")));
 		Assert.assertEquals("It's enabled!", driver.findElement(By.xpath("//p[@id='message']")).getText());
 		driver.findElement(By.xpath("//input[@type='text']")).sendKeys("Test!");
 		driver.findElement(By.xpath("//button[@type='button'][text()='Disable']")).click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@id='loading'][text()='Wait for it... '])[2]")));
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@id='loading'][text()='Wait for it... '])[3]")));
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("(//div[@id='loading'][text()='Wait for it... '])[2]")));
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("(//div[@id='loading'][text()='Wait for it... '])[3]")));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@type='text'][@disabled='']")));
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
@@ -244,7 +308,8 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Dropdown List']")));
 		Select select = new Select(driver.findElement(By.cssSelector("select#dropdown")));
 		select.selectByValue("1");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//option[@selected='selected'][text()='Option 1']")));
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("//option[@selected='selected'][text()='Option 1']")));
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
@@ -258,7 +323,8 @@ public class herokuAppPage {
 		WebElement source = driver.findElement(By.cssSelector("div#content div#column-a"));
 		WebElement target = driver.findElement(By.cssSelector("div#content div#column-b"));
 		action.dragAndDrop(source, target).build().perform();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div#content div#column-a[style='opacity: 1;']")));
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.cssSelector("div#content div#column-a[style='opacity: 1;']")));
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
@@ -270,13 +336,13 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Disappearing Elements']")));
 		ArrayList<String> Window1 = null;
 		List<WebElement> links = driver.findElements(By.xpath("//div[@id='content']//ul//a"));
-		for(WebElement link : links) {
+		for (WebElement link : links) {
 			link.sendKeys(keys.ctlrClick(driver));
 //			Window1 = browserRelated.multiWindowHandling(driver);
 		}
 		Window1 = browserRelated.multiWindowHandling(driver);
-		for(int i=Window1.size();i>Window1.size()-4;i--) {
-			driver.switchTo().window(Window1.get(i-1));
+		for (int i = Window1.size(); i > Window1.size() - 4; i--) {
+			driver.switchTo().window(Window1.get(i - 1));
 //			System.out.println(driver.getTitle());
 			driver.close();
 		}
@@ -328,10 +394,10 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//div[@class='large-2 columns']/a[@class='button alert']")).click();
 		driver.findElement(By.xpath("//div[@class='large-2 columns']/a[@class='button success']")).click();
 		List<WebElement> rows = driver.findElements(By.cssSelector("div.large-10 table tbody tr"));
-		for(int i=1;i<rows.size();i++) {
+		for (int i = 1; i < rows.size(); i++) {
 			List<WebElement> columns = rows.get(i).findElements(By.cssSelector("td"));
-			for(WebElement column : columns) {
-				System.out.print(column.getText()+", ");
+			for (WebElement column : columns) {
+				System.out.print(column.getText() + ", ");
 			}
 			System.out.println();
 		}
@@ -345,9 +411,9 @@ public class herokuAppPage {
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Broken Images']")));
 		List<WebElement> images = driver.findElements(By.xpath("//div[@class='example']/img"));
-		for(WebElement image : images) {
-			if(image.getAttribute("naturalWidth").equals("0")) {
-				System.out.println(image.getAttribute("outerHTML")+" is broken.");
+		for (WebElement image : images) {
+			if (image.getAttribute("naturalWidth").equals("0")) {
+				System.out.println(image.getAttribute("outerHTML") + " is broken.");
 			}
 		}
 		driver.close();
@@ -364,13 +430,13 @@ public class herokuAppPage {
 //        driver.get("https://admin:admin@the-internet.herokuapp.com/basic_auth");
 //        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")));
 //        driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
-        
-        
+
 //       2nd Method by HasAuthentication
-        ((HasAuthentication)driver).register(UsernameAndPassword.of("admin", "admin"));
-        driver.get("https://the-internet.herokuapp.com/basic_auth");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")));
-        driver.close();
+		((HasAuthentication) driver).register(UsernameAndPassword.of("admin", "admin"));
+		driver.get("https://the-internet.herokuapp.com/basic_auth");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(
+				By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")));
+		driver.close();
 		driver.switchTo().window(browserRelated.parentWindow(driver));
 	}
 
@@ -394,11 +460,11 @@ public class herokuAppPage {
 		driver.close();
 		driver.switchTo().window(browserRelated.parentWindow(driver));
 	}
-	
+
 	@Test
 	private static void ABTesting() {
 		driver.findElement(By.xpath("//a[text()='A/B Testing']")).sendKeys(keys.ctlrClick(driver));
-		ArrayList<String> Window =  browserRelated.multiWindowHandling(driver);
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		String name2 = "Also known as split testing. This is a way in which businesses are able to simultaneously test and learn different versions of a page to see which text and/or functionality works best towards a desired outcome (e.g. a user action such as a click-through).";
 		Assert.assertEquals(name2, driver.findElement(By.cssSelector("div.example p")).getText());
