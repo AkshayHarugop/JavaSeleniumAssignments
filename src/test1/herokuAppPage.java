@@ -75,19 +75,28 @@ public class herokuAppPage {
 //		inputs();
 //		jQueryUIMenus(); // Check one more time
 //		javaScriptAlerts();
-		javaScriptOnloadEventError();
+//		javaScriptOnloadEventError();
 		keyPresses();
 		driver.quit();
 		System.out.println("End");
 	}
 
 	private static void keyPresses() {
-		driver.findElement(By.xpath("//a[text()='JavaScript onload event error']")).sendKeys(keys.ctlrClick());
+		driver.findElement(By.xpath("//a[text()='Key Presses']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
-//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='JavaScript Alerts']")));
-		By error = By.xpath("//p[contains(text(),'JavaScript error')]");
-		wait.until(ExpectedConditions.visibilityOfElementLocated(error));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Key Presses']")));
+		WebElement textBox = driver.findElement(By.id("target"));
+//		Click on the tab an verify the response
+		textBox.sendKeys(Keys.TAB);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[text()='You entered: TAB']")));
+//		Click on the Shift an verify the response
+		textBox.sendKeys(Keys.SHIFT);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[text()='You entered: SHIFT']")));
+//		Click on the ESCAPE an verify the response
+		textBox.sendKeys(Keys.ESCAPE);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[text()='You entered: ESCAPE']")));		
+	
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
