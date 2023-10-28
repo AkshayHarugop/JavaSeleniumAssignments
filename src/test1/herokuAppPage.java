@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.HasAuthentication;
 import org.openqa.selenium.JavascriptExecutor;
@@ -71,10 +72,66 @@ public class herokuAppPage {
 //		horizontalSlider();
 //		hovers();
 //		infiniteScroll();
-		inputs();
-		jQueryUIMenus();
+//		inputs();
+//		jQueryUIMenus(); // Check one more time
+//		javaScriptAlerts();
+		javaScriptOnloadEventError();
+		keyPresses();
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void keyPresses() {
+		driver.findElement(By.xpath("//a[text()='JavaScript onload event error']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='JavaScript Alerts']")));
+		By error = By.xpath("//p[contains(text(),'JavaScript error')]");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(error));
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+	}
+
+	private static void javaScriptOnloadEventError() {
+		driver.findElement(By.xpath("//a[text()='JavaScript onload event error']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='JavaScript Alerts']")));
+		By error = By.xpath("//p[contains(text(),'JavaScript error')]");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(error));
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+	}
+
+	private static void javaScriptAlerts() {
+		driver.findElement(By.xpath("//a[text()='JavaScript Alerts']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='JavaScript Alerts']")));
+		driver.findElement(By.xpath("//button[@onclick='jsAlert()']")).click();
+		Alert alert1 = driver.switchTo().alert();
+		Assert.assertEquals(alert1.getText(), "I am a JS Alert");
+		alert1.accept();
+		driver.findElement(By.xpath("//button[@onclick='jsConfirm()']")).click();
+		Alert alert2 = driver.switchTo().alert();
+		Assert.assertEquals(alert2.getText(), "I am a JS Confirm");
+		alert2.accept();
+		driver.findElement(By.xpath("//button[@onclick='jsConfirm()']")).click();
+		Alert alert3 = driver.switchTo().alert();
+		Assert.assertEquals(alert3.getText(), "I am a JS Confirm");
+		alert3.dismiss();
+		driver.findElement(By.xpath("//button[@onclick='jsPrompt()']")).click();
+		Alert alert4 = driver.switchTo().alert();
+		Assert.assertEquals(alert4.getText(), "I am a JS prompt");
+		alert4.sendKeys("Hello!!");
+		alert4.accept();
+		driver.findElement(By.xpath("//button[@onclick='jsPrompt()']")).click();
+		Alert pop1 = driver.switchTo().alert();
+		System.out.println(pop1.getText());
+		pop1.sendKeys("Welcome to Selenium 4");
+		pop1.accept();
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void jQueryUIMenus() {
@@ -84,21 +141,12 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='JQueryUI - Menu']")));
 		Actions action = new Actions(driver);
 		action.moveToElement(driver.findElement(By.xpath("//a[text()='Disabled']"))).build().perform();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Disabled']/parent::li/ul[@aria-expanded='false']")));
 		action.moveToElement(driver.findElement(By.xpath("//a[text()='Enabled']"))).build().perform();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Disabled']/parent::li/ul[@aria-expanded='true']")));
-		String value1 = driver.findElement(By.xpath("//a[text()='Enabled']/parent::li/ul[@aria-expanded='true']/li[@class='ui-menu-item ui-state-focus']/a")).getText();
-		Assert.assertEquals("Back to JQuery UI", value1);
-		
-		
-		
-		
-		WebElement input = driver.findElement(By.xpath("//input[@type='number']"));
-		Actions action = new Actions(driver);
-		action.moveToElement(input).click().sendKeys("5000").build().perform();
-		for(int i=0;i<10;i++) {
-			action.moveToElement(input).click().sendKeys(Keys.ARROW_UP).build().perform();
-		}
+//		action.moveToElement(driver.findElement(By.xpath("//a[text()='Downloads']"))).build().perform();
+
+//		action.moveToElement(driver.findElement(By.xpath("//li[@class='ui-menu-item ui-state-focus']/a[text()='Back to JQuery UI']"))).build().perform();
+//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='ui-menu-item']/a[text()='Back to JQuery UI']")));
+
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
@@ -111,7 +159,7 @@ public class herokuAppPage {
 		WebElement input = driver.findElement(By.xpath("//input[@type='number']"));
 		Actions action = new Actions(driver);
 		action.moveToElement(input).click().sendKeys("5000").build().perform();
-		for(int i=0;i<10;i++) {
+		for (int i = 0; i < 10; i++) {
 			action.moveToElement(input).click().sendKeys(Keys.ARROW_UP).build().perform();
 		}
 		driver.close();
@@ -123,8 +171,8 @@ public class herokuAppPage {
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Infinite Scroll']")));
-		JavascriptExecutor jse = (JavascriptExecutor)driver;
-		for(int i=0;i<5;i++) {
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		for (int i = 0; i < 5; i++) {
 			jse.executeScript("window.scrollBy(0,1000)");
 			Thread.sleep(1000);
 		}
@@ -139,7 +187,7 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Hovers']")));
 		List<WebElement> userAvatars = driver.findElements(By.xpath("//div[@class='figure']"));
 		Actions action = new Actions(driver);
-		for(WebElement userAvatar : userAvatars) {
+		for (WebElement userAvatar : userAvatars) {
 			action.moveToElement(userAvatar).build().perform();
 		}
 		driver.close();
@@ -151,7 +199,7 @@ public class herokuAppPage {
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Horizontal Slider']")));
-		//check for the initial range
+		// check for the initial range
 		Assert.assertEquals("0", driver.findElement(By.xpath("//span[@id='range']")).getText());
 		WebElement slider = driver.findElement(By.xpath("//input[@type='range']"));
 		Actions action = new Actions(driver);
