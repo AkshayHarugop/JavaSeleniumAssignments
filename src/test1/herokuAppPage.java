@@ -9,6 +9,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.HasAuthentication;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.UsernameAndPassword;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -39,45 +40,151 @@ public class herokuAppPage {
 		System.out.println("Start");
 		driver = loginRelated.herokuappLogin();
 		wait = loginRelated.wait(driver);
-		ABTesting();
-		addRemoveElements();
-		basicAuth();
-		brokenImages();
-		challengingDOM();
-		checkBoxes();
-		contextMenu();
-		digestAuthentication();
-		Thread.sleep(5000);
-		disappearingElements();
-		Thread.sleep(5000);
-		dragAndDrop();
-		Thread.sleep(5000);
-		dropDown();
-		dynamicContent();
-		dynamicControls();
-		dynamicLoading();
-		Thread.sleep(5000);
-		entryAd();
-		Thread.sleep(5000);
-		exitIntent(); // need to check one more time
-		fileDownload();
-		fileUpload();
-		floatingMenu();
-		forgotPassword();
-		formAuthentication();	
-		frames();
+//		ABTesting();
+//		addRemoveElements();
+//		basicAuth();
+//		brokenImages();
+//		challengingDOM();
+//		checkBoxes();
+//		contextMenu();
+//		digestAuthentication();
+//		Thread.sleep(5000);
+//		disappearingElements();
+//		Thread.sleep(5000);
+//		dragAndDrop();
+//		Thread.sleep(5000);
+//		dropDown();
+//		dynamicContent();
+//		dynamicControls();
+//		dynamicLoading();
+//		Thread.sleep(5000);
+//		entryAd();
+//		Thread.sleep(5000);
+//		exitIntent(); // need to check one more time
+//		fileDownload();
+//		fileUpload();
+//		floatingMenu();
+//		forgotPassword();
+//		formAuthentication();	
+//		frames();
+//		geolocation();
+//		horizontalSlider();
+//		hovers();
+//		infiniteScroll();
+		inputs();
+		jQueryUIMenus();
 		driver.quit();
 		System.out.println("End");
 	}
 
+	private static void jQueryUIMenus() {
+		driver.findElement(By.xpath("//a[text()='JQuery UI Menus']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='JQueryUI - Menu']")));
+		Actions action = new Actions(driver);
+		action.moveToElement(driver.findElement(By.xpath("//a[text()='Disabled']"))).build().perform();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Disabled']/parent::li/ul[@aria-expanded='false']")));
+		action.moveToElement(driver.findElement(By.xpath("//a[text()='Enabled']"))).build().perform();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Disabled']/parent::li/ul[@aria-expanded='true']")));
+		String value1 = driver.findElement(By.xpath("//a[text()='Enabled']/parent::li/ul[@aria-expanded='true']/li[@class='ui-menu-item ui-state-focus']/a")).getText();
+		Assert.assertEquals("Back to JQuery UI", value1);
+		
+		
+		
+		
+		WebElement input = driver.findElement(By.xpath("//input[@type='number']"));
+		Actions action = new Actions(driver);
+		action.moveToElement(input).click().sendKeys("5000").build().perform();
+		for(int i=0;i<10;i++) {
+			action.moveToElement(input).click().sendKeys(Keys.ARROW_UP).build().perform();
+		}
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+	}
+
+	private static void inputs() {
+		driver.findElement(By.xpath("//a[text()='Inputs']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Inputs']")));
+		WebElement input = driver.findElement(By.xpath("//input[@type='number']"));
+		Actions action = new Actions(driver);
+		action.moveToElement(input).click().sendKeys("5000").build().perform();
+		for(int i=0;i<10;i++) {
+			action.moveToElement(input).click().sendKeys(Keys.ARROW_UP).build().perform();
+		}
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+	}
+
+	private static void infiniteScroll() throws InterruptedException {
+		driver.findElement(By.xpath("//a[text()='Infinite Scroll']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Infinite Scroll']")));
+		JavascriptExecutor jse = (JavascriptExecutor)driver;
+		for(int i=0;i<5;i++) {
+			jse.executeScript("window.scrollBy(0,1000)");
+			Thread.sleep(1000);
+		}
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+	}
+
+	private static void hovers() {
+		driver.findElement(By.xpath("//a[text()='Hovers']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Hovers']")));
+		List<WebElement> userAvatars = driver.findElements(By.xpath("//div[@class='figure']"));
+		Actions action = new Actions(driver);
+		for(WebElement userAvatar : userAvatars) {
+			action.moveToElement(userAvatar).build().perform();
+		}
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+	}
+
+	private static void horizontalSlider() {
+		driver.findElement(By.xpath("//a[text()='Horizontal Slider']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Horizontal Slider']")));
+		//check for the initial range
+		Assert.assertEquals("0", driver.findElement(By.xpath("//span[@id='range']")).getText());
+		WebElement slider = driver.findElement(By.xpath("//input[@type='range']"));
+		Actions action = new Actions(driver);
+		action.clickAndHold(slider);
+		action.moveByOffset(6, 0).build().perform();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='range'][text()='2.5']")));
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+	}
+
+	private static void geolocation() {
+		driver.findElement(By.xpath("//a[text()='Geolocation']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Geolocation']")));
+		driver.findElement(By.xpath("//button[@onclick='getLocation()']")).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[@id='demo']/div[@id='lat-value']")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[@id='demo']/div[@id='long-value']")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='See it on Google']")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@onclick='getLocation()']")));
+		driver.findElement(By.xpath("//button[@onclick='getLocation()']")).click();
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+	}
+
 	private static void frames() {
-		driver.findElement(By.xpath("//a[text()='Frames']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Frames']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Frames']")));
 		List<WebElement> links = driver.findElements(By.xpath("//div[@class='example']//a"));
 		for (WebElement link : links) {
-			link.sendKeys(keys.ctlrClick(driver));
+			link.sendKeys(keys.ctlrClick());
 		}
 		ArrayList<String> Window1 = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window1.get(2));
@@ -118,7 +225,7 @@ public class herokuAppPage {
 	}
 
 	private static void formAuthentication() {
-		driver.findElement(By.xpath("//a[text()='Form Authentication']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Form Authentication']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='Login Page']")));
@@ -132,7 +239,7 @@ public class herokuAppPage {
 	}
 
 	private static void forgotPassword() {
-		driver.findElement(By.xpath("//a[text()='Forgot Password']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Forgot Password']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='Forgot Password']")));
@@ -144,7 +251,7 @@ public class herokuAppPage {
 	}
 
 	private static void floatingMenu() {
-		driver.findElement(By.xpath("//a[text()='Floating Menu']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Floating Menu']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Floating Menu']")));
@@ -167,7 +274,7 @@ public class herokuAppPage {
 	}
 
 	private static void fileUpload() {
-		driver.findElement(By.xpath("//a[text()='File Upload']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='File Upload']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='File Uploader']")));
@@ -182,7 +289,7 @@ public class herokuAppPage {
 	}
 
 	private static void fileDownload() {
-		driver.findElement(By.xpath("//a[text()='File Download']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='File Download']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='File Downloader']")));
@@ -196,7 +303,7 @@ public class herokuAppPage {
 	}
 
 	private static void exitIntent() {
-		driver.findElement(By.xpath("//a[text()='Exit Intent']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Exit Intent']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Exit Intent']")));
@@ -206,7 +313,7 @@ public class herokuAppPage {
 	}
 
 	private static void entryAd() {
-		driver.findElement(By.xpath("//a[text()='Entry Ad']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Entry Ad']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='This is a modal window']")));
@@ -223,14 +330,14 @@ public class herokuAppPage {
 	}
 
 	private static void dynamicLoading() {
-		driver.findElement(By.xpath("//a[text()='Dynamic Loading']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Dynamic Loading']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.xpath("//h3[text()='Dynamically Loaded Page Elements']")));
 		List<WebElement> links = driver.findElements(By.cssSelector("div.example a"));
 		for (WebElement link : links) {
-			link.sendKeys(keys.ctlrClick(driver));
+			link.sendKeys(keys.ctlrClick());
 		}
 		ArrayList<String> Window1 = browserRelated.multiWindowHandling(driver);
 		for (int i = 0; i < Window1.size(); i++) {
@@ -265,7 +372,7 @@ public class herokuAppPage {
 	}
 
 	private static void dynamicControls() {
-		driver.findElement(By.xpath("//a[text()='Dynamic Controls']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Dynamic Controls']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[text()='Dynamic Controls']")));
@@ -292,7 +399,7 @@ public class herokuAppPage {
 	}
 
 	private static void dynamicContent() {
-		driver.findElement(By.xpath("//a[text()='Dynamic Content']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Dynamic Content']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Dynamic Content']")));
@@ -302,7 +409,7 @@ public class herokuAppPage {
 	}
 
 	private static void dropDown() {
-		driver.findElement(By.xpath("//a[text()='Dropdown']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Dropdown']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Dropdown List']")));
@@ -315,7 +422,7 @@ public class herokuAppPage {
 	}
 
 	private static void dragAndDrop() {
-		driver.findElement(By.xpath("//a[text()='Drag and Drop']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Drag and Drop']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Drag and Drop']")));
@@ -330,14 +437,14 @@ public class herokuAppPage {
 	}
 
 	private static void disappearingElements() {
-		driver.findElement(By.xpath("//a[text()='Disappearing Elements']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Disappearing Elements']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Disappearing Elements']")));
 		ArrayList<String> Window1 = null;
 		List<WebElement> links = driver.findElements(By.xpath("//div[@id='content']//ul//a"));
 		for (WebElement link : links) {
-			link.sendKeys(keys.ctlrClick(driver));
+			link.sendKeys(keys.ctlrClick());
 //			Window1 = browserRelated.multiWindowHandling(driver);
 		}
 		Window1 = browserRelated.multiWindowHandling(driver);
@@ -357,7 +464,7 @@ public class herokuAppPage {
 	}
 
 	private static void contextMenu() {
-		driver.findElement(By.xpath("//a[text()='Context Menu']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Context Menu']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Context Menu']")));
@@ -371,7 +478,7 @@ public class herokuAppPage {
 	}
 
 	private static void checkBoxes() {
-		driver.findElement(By.xpath("//a[text()='Checkboxes']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Checkboxes']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Checkboxes']")));
@@ -386,7 +493,7 @@ public class herokuAppPage {
 	}
 
 	private static void challengingDOM() {
-		driver.findElement(By.xpath("//a[text()='Challenging DOM']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Challenging DOM']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Challenging DOM']")));
@@ -406,7 +513,7 @@ public class herokuAppPage {
 	}
 
 	private static void brokenImages() {
-		driver.findElement(By.xpath("//a[text()='Broken Images']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Broken Images']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Broken Images']")));
@@ -423,7 +530,7 @@ public class herokuAppPage {
 	@Test
 	private static void basicAuth() {
 //		String name = driver.findElement(By.xpath("(//div[@id='content']/ul/li/a)[3]")).getText();
-		driver.findElement(By.xpath("//a[text()='Basic Auth']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Basic Auth']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 //		1st method proxy login works like this "https://username:password@test.com"
@@ -444,7 +551,7 @@ public class herokuAppPage {
 	private static void addRemoveElements() {
 //		Window.clear();
 		String name = driver.findElement(By.xpath("(//div[@id='content']/ul/li/a)[2]")).getText();
-		driver.findElement(By.xpath("//a[text()='Add/Remove Elements']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='Add/Remove Elements']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		Assert.assertEquals(name, driver.findElement(By.cssSelector("div#content h3")).getText());
@@ -463,7 +570,7 @@ public class herokuAppPage {
 
 	@Test
 	private static void ABTesting() {
-		driver.findElement(By.xpath("//a[text()='A/B Testing']")).sendKeys(keys.ctlrClick(driver));
+		driver.findElement(By.xpath("//a[text()='A/B Testing']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
 		String name2 = "Also known as split testing. This is a way in which businesses are able to simultaneously test and learn different versions of a page to see which text and/or functionality works best towards a desired outcome (e.g. a user action such as a click-through).";

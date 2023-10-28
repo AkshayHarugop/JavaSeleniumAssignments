@@ -51,7 +51,7 @@ public class automationPracticePage {
 		Assert.assertEquals(5, dClinks.size());
 		ArrayList<String> Window = null;
 		for(WebElement dClink : dClinks) {
-			dClink.sendKeys(keys.ctlrClick(driver));
+			dClink.sendKeys(keys.ctlrClick());
 			Window =  browserRelated.multiWindowHandling(driver);
 			
 		}
@@ -67,7 +67,7 @@ public class automationPracticePage {
 		List<WebElement> links = footer.findElements(By.tagName("a"));
 		Assert.assertEquals(20, links.size());
 		for(WebElement link : links) {
-			link.sendKeys(keys.ctlrClick(driver));
+			link.sendKeys(keys.ctlrClick());
 			Window =  browserRelated.multiWindowHandling(driver);
 		}
 		for(int i=0;i<Window.size();i++) {
