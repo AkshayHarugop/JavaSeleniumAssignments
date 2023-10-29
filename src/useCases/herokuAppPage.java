@@ -79,9 +79,33 @@ public class herokuAppPage {
 //		keyPresses();
 //		largeDeepDOM(); // Need to work some more on this thing
 //		multipleWindows();
-		nestedFrames();
+//		nestedFrames();
+		notificationMessages();
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void notificationMessages() {
+		driver.findElement(By.xpath("//a[text()='Notification Messages']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Notification Message']")));
+		String msg = driver.findElement(By.xpath("//div[@id='flash']")).getText().replace("\n", "!").split("!")[0];
+		if(msg.equals("Action successful")) {
+			do {
+				driver.findElement(By.xpath("//a[normalize-space()='Click here']")).click();
+				msg = driver.findElement(By.xpath("//div[@id='flash']")).getText().replace("\n", "!").split("!")[0];
+			}while(!msg.equals("Action unsuccesful, please try again"));
+		}else {
+			Assert.assertEquals(msg.equals("Action unsuccesful, please try again"), true);
+			do {
+				driver.findElement(By.xpath("//a[normalize-space()='Click here']")).click();
+				msg = driver.findElement(By.xpath("//div[@id='flash']")).getText().replace("\n", "!").split("!")[0];
+			}while(!msg.equals("Action unsuccesful"));
+		}
+
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void nestedFrames() {
