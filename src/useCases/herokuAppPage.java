@@ -81,9 +81,25 @@ public class herokuAppPage {
 //		multipleWindows();
 //		nestedFrames();
 //		notificationMessages();
-		redirectLink();
+//		redirectLink();
+		secureFileDownload();
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void secureFileDownload() {
+		driver.findElement(By.xpath("//a[text()='Secure File Download']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+	    driver.get("https://admin:admin@the-internet.herokuapp.com/download_secure");
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Secure File Downloader']")));
+	    List<WebElement> links = driver.findElements(By.xpath("//div[@class='example']/a"));
+		for(WebElement link : links) {
+			link.click();
+		}
+
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void redirectLink() {
@@ -107,7 +123,8 @@ public class herokuAppPage {
 			driver.switchTo().window(Window1.get(2));
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Status Codes']")));
 		}
-		
+		driver.close();
+		driver.switchTo().window(Window.get(1));
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
