@@ -64,7 +64,7 @@ public class loginRelated {
 		WebDriverManager.chromedriver().setup();
 //		System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe");
 		WebDriver driver = new ChromeDriver(options);
-		driver.get("https://the-internet.herokuapp.com/");
+		driver.get("https://the-interne			t.herokuapp.com/");
 		driver.manage().window().maximize();
 //		implicit wait
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));

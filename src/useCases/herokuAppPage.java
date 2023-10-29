@@ -1,4 +1,4 @@
-package test1;
+package useCases;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -76,9 +76,33 @@ public class herokuAppPage {
 //		jQueryUIMenus(); // Check one more time
 //		javaScriptAlerts();
 //		javaScriptOnloadEventError();
-		keyPresses();
+//		keyPresses();
+		largeDeepDOM(); // Need to work some more on this thing
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void largeDeepDOM() {
+		driver.findElement(By.xpath("//a[text()='Large & Deep DOM']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Large & Deep DOM']")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[text()='No Siblings']")));
+		List<WebElement> value1 = driver.findElements(By.xpath("(//h4[text()='No Siblings']/parent::div/div)[1]//div"));
+		for(int i=value1.size();i>0;i--) {
+			if(i==value1.size()-1) {
+				Assert.assertEquals("No siblings", value1.get(i).getText());
+				break;
+			}
+		}
+		
+//		sibling 1. 
+		List<WebElement> value2 = driver.findElements(By.xpath("(//h4[text()='No Siblings']/parent::div/div)[2]//div[@id='siblings']//div[contains(@id,'sibling-1.')]"));
+		String value = value2.get(0).getText();
+//		System.out.println(value);
+		
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void keyPresses() {
