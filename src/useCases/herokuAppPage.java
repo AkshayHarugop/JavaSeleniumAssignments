@@ -80,9 +80,36 @@ public class herokuAppPage {
 //		largeDeepDOM(); // Need to work some more on this thing
 //		multipleWindows();
 //		nestedFrames();
-		notificationMessages();
+//		notificationMessages();
+		redirectLink();
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void redirectLink() {
+		driver.findElement(By.xpath("//a[text()='Redirect Link']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Redirection']")));
+		driver.findElement(By.xpath("//a[@id='redirect']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window1 = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window1.get(2));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Status Codes']")));
+		List<WebElement> links = driver.findElements(By.xpath("//a[contains(@href,'status_codes/')]"));
+		for(int i=1;i<=links.size();i++) {
+			String text = driver.findElement(By.xpath("(//a[contains(@href,'status_codes/')])["+i+"]")).getText();
+			driver.findElement(By.xpath("(//a[contains(@href,'status_codes/')])["+i+"]")).click();
+			driver.switchTo().window(Window1.get(2));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Status Codes']")));
+			By visi = By.xpath("//div[@class='example']/p[contains(text(),'"+text+" status code.')]");
+			wait.until(ExpectedConditions.visibilityOfElementLocated(visi));
+			driver.findElement(By.xpath("//a[normalize-space()='here']")).click();
+			driver.switchTo().window(Window1.get(2));
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Status Codes']")));
+		}
+		
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void notificationMessages() {
