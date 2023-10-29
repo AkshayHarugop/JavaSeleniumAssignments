@@ -77,9 +77,25 @@ public class herokuAppPage {
 //		javaScriptAlerts();
 //		javaScriptOnloadEventError();
 //		keyPresses();
-		largeDeepDOM(); // Need to work some more on this thing
+//		largeDeepDOM(); // Need to work some more on this thing
+		multipleWindows();
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void multipleWindows() {
+		driver.findElement(By.xpath("//a[text()='Multiple Windows']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Opening a new window']")));
+		driver.findElement(By.xpath("//a[normalize-space()='Click Here']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window1 = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window1.get(2));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='New Window']")));
+		driver.close();
+		driver.switchTo().window(Window.get(1));
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void largeDeepDOM() {
