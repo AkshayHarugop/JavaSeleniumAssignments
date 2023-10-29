@@ -78,9 +78,37 @@ public class herokuAppPage {
 //		javaScriptOnloadEventError();
 //		keyPresses();
 //		largeDeepDOM(); // Need to work some more on this thing
-		multipleWindows();
+//		multipleWindows();
+		nestedFrames();
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void nestedFrames() {
+		driver.findElement(By.xpath("//a[text()='Nested Frames']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Opening a new window']")));
+		driver.switchTo().frame("frame-top");
+		driver.switchTo().frame("frame-left");
+		Assert.assertEquals(driver.findElement(By.xpath("//html/body")).getText(), "LEFT");
+		
+		driver.switchTo().window(Window.get(1));
+		driver.switchTo().frame("frame-top");
+		driver.switchTo().frame("frame-middle");
+		Assert.assertEquals(driver.findElement(By.xpath("//html/body/div")).getText(), "MIDDLE");
+		
+		driver.switchTo().window(Window.get(1));
+		driver.switchTo().frame("frame-top");
+		driver.switchTo().frame("frame-right");
+		Assert.assertEquals(driver.findElement(By.xpath("//html/body")).getText(), "RIGHT");
+		
+		driver.switchTo().window(Window.get(1));
+		driver.switchTo().frame("frame-bottom");
+		Assert.assertEquals(driver.findElement(By.xpath("//html/body")).getText(), "BOTTOM");
+		
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void multipleWindows() {
