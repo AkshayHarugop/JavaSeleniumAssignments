@@ -45,7 +45,8 @@ public class loginRelated {
 	}
 	
 	public static WebDriver greenKartLogin() {
-		System.setProperty("webdriver.gecko.driver", "C:\\geckodriver.exe");
+		WebDriverManager.firefoxdriver().setup();
+//		System.setProperty("webdriver.gecko.driver", "C:\\geckodriver.exe");
 		WebDriver driver = new FirefoxDriver();
 		driver.get("https://rahulshettyacademy.com/seleniumPractise/#/");
 		driver.manage().window().maximize();
@@ -104,5 +105,5 @@ public class loginRelated {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 		return driver;
 	}
-
+	
 }
