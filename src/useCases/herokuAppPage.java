@@ -88,9 +88,43 @@ public class herokuAppPage {
 //		shadowDOM(); // Pending
 //		shiftingContent();
 //		slowResources();
-		sortableDataTables();
+//		sortableDataTables();
+//		statusCodes();
+		Typos();
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void Typos() {
+		driver.findElement(By.xpath("//a[text()='Typos']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Typos']")));
+	    for(int i=0;i<10;i++) {
+	    	driver.findElement(By.xpath("(//div[@id='content']/div[@class='example']/p)[2]")).getText();
+//	    	Assert.assertEquals(driver.findElement(By.xpath("(//div[@id='content']/div[@class='example']/p)[2]")).getText(), "Sometimes you'll see a typo, other times you won,t.");
+	    	try {
+	    		Assert.assertEquals(driver.findElement(By.xpath("(//div[@id='content']/div[@class='example']/p)[2]")).getText(), "Sometimes you'll see a typo, other times you won't.");
+	    		break;
+	    	}catch(AssertionError e) {
+	    		driver.navigate().refresh();
+	    	}
+	    }
+	    driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+	}
+
+	private static void statusCodes() {
+		driver.findElement(By.xpath("//a[text()='Status Codes']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Status Codes']")));
+	    List<WebElement> links = driver.findElements(By.xpath("//div[@id='content']//ul/li/a"));
+	    for(WebElement link : links) {
+	    	System.out.println(link.getText());
+	    }
+	    driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void sortableDataTables() {
