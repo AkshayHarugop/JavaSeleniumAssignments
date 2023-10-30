@@ -27,7 +27,6 @@ import Utilities.keys;
 import Utilities.loginRelated;
 import io.github.sukgu.Shadow;
 
-
 public class herokuAppPage {
 	static WebDriver driver;
 	static WebDriverWait wait;
@@ -43,54 +42,56 @@ public class herokuAppPage {
 		System.out.println("Start");
 		driver = loginRelated.herokuappLogin();
 		wait = loginRelated.wait(driver);
-//		ABTesting();
-//		addRemoveElements();
-//		basicAuth();
-//		brokenImages();
-//		challengingDOM();
-//		checkBoxes();
-//		contextMenu();
-//		digestAuthentication();
-//		Thread.sleep(5000);
-//		disappearingElements();
-//		Thread.sleep(5000);
-//		dragAndDrop();
-//		Thread.sleep(5000);
-//		dropDown();
-//		dynamicContent();
-//		dynamicControls();
-//		dynamicLoading();
-//		Thread.sleep(5000);
-//		entryAd();
-//		Thread.sleep(5000);
-//		exitIntent(); // need to check one more time
-//		fileDownload();
-//		fileUpload();
-//		floatingMenu();
-//		forgotPassword();
-//		formAuthentication();	
-//		frames();
-//		geolocation();
-//		horizontalSlider();
-//		hovers();
-//		infiniteScroll();
-//		inputs();
-//		jQueryUIMenus(); // Check one more time
-//		javaScriptAlerts();
-//		javaScriptOnloadEventError();
-//		keyPresses();
-//		largeDeepDOM(); // Need to work some more on this thing
-//		multipleWindows();
-//		nestedFrames();
-//		notificationMessages();
-//		redirectLink();
-//		secureFileDownload();
+		ABTesting();
+		addRemoveElements();
+		basicAuth();
+		brokenImages();
+		challengingDOM();
+		checkBoxes();
+		contextMenu();
+		digestAuthentication();
+		Thread.sleep(5000);
+		disappearingElements();
+		Thread.sleep(5000);
+		dragAndDrop();
+		Thread.sleep(5000);
+		dropDown();
+		dynamicContent();
+		dynamicControls();
+		dynamicLoading();
+		Thread.sleep(5000);
+		entryAd();
+		Thread.sleep(5000);
+		exitIntent(); // need to check one more time
+		fileDownload();
+		fileUpload();
+		floatingMenu();
+		forgotPassword();
+		formAuthentication();	
+		Thread.sleep(5000);
+		frames();
+		Thread.sleep(5000);
+		geolocation();
+		horizontalSlider();
+		hovers();
+		infiniteScroll();
+		inputs();
+		jQueryUIMenus(); // Check one more time
+		javaScriptAlerts();
+		javaScriptOnloadEventError();
+		keyPresses();
+		largeDeepDOM(); // Need to work some more on this thing
+		multipleWindows();
+		nestedFrames();
+		notificationMessages();
+		redirectLink();
+		secureFileDownload();
 //		shadowDOM(); // Pending
-//		shiftingContent();
-//		slowResources();
-//		sortableDataTables();
-//		statusCodes();
-//		Typos();
+		shiftingContent();
+		slowResources();
+		sortableDataTables();
+		statusCodes();
+		Typos();
 		wYSIWYGEditor();
 		driver.quit();
 		System.out.println("End");
@@ -100,13 +101,14 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//a[text()='WYSIWYG Editor']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='An iFrame containing the TinyMCE WYSIWYG Editor']")));
-	    driver.switchTo().frame(driver.findElement(By.xpath("//iframe[contains(@id,'mce_')][contains(@id,'_ifr')]")));
-	    Actions action = new Actions(driver);
-	    WebElement content = driver.findElement(By.xpath("//body[@id='tinymce']"));
-	    content.clear();
-	    action.moveToElement(content).click().sendKeys("hello Hi How are you !!").build().perform();
-	    driver.close();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(
+				By.xpath("//h3[text()='An iFrame containing the TinyMCE WYSIWYG Editor']")));
+		driver.switchTo().frame(driver.findElement(By.xpath("//iframe[contains(@id,'mce_')][contains(@id,'_ifr')]")));
+		Actions action = new Actions(driver);
+		WebElement content = driver.findElement(By.xpath("//body[@id='tinymce']"));
+		content.clear();
+		action.moveToElement(content).click().sendKeys("hello Hi How are you !!").build().perform();
+		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
@@ -114,18 +116,20 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//a[text()='Typos']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Typos']")));
-	    for(int i=0;i<10;i++) {
-	    	driver.findElement(By.xpath("(//div[@id='content']/div[@class='example']/p)[2]")).getText();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Typos']")));
+		for (int i = 0; i < 10; i++) {
+			driver.findElement(By.xpath("(//div[@id='content']/div[@class='example']/p)[2]")).getText();
 //	    	Assert.assertEquals(driver.findElement(By.xpath("(//div[@id='content']/div[@class='example']/p)[2]")).getText(), "Sometimes you'll see a typo, other times you won,t.");
-	    	try {
-	    		Assert.assertEquals(driver.findElement(By.xpath("(//div[@id='content']/div[@class='example']/p)[2]")).getText(), "Sometimes you'll see a typo, other times you won't.");
-	    		break;
-	    	}catch(AssertionError e) {
-	    		driver.navigate().refresh();
-	    	}
-	    }
-	    driver.close();
+			try {
+				Assert.assertEquals(
+						driver.findElement(By.xpath("(//div[@id='content']/div[@class='example']/p)[2]")).getText(),
+						"Sometimes you'll see a typo, other times you won't.");
+				break;
+			} catch (AssertionError e) {
+				driver.navigate().refresh();
+			}
+		}
+		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
@@ -133,12 +137,12 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//a[text()='Status Codes']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Status Codes']")));
-	    List<WebElement> links = driver.findElements(By.xpath("//div[@id='content']//ul/li/a"));
-	    for(WebElement link : links) {
-	    	System.out.println(link.getText());
-	    }
-	    driver.close();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Status Codes']")));
+		List<WebElement> links = driver.findElements(By.xpath("//div[@id='content']//ul/li/a"));
+		for (WebElement link : links) {
+			System.out.println(link.getText());
+		}
+		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
@@ -146,26 +150,32 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//a[text()='Sortable Data Tables']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Data Tables']")));
-	    List<WebElement> rowsNo = driver.findElements(By.xpath("//table[@id='table1']/tbody/tr"));
-	    
-	    for(int i=1;i<=rowsNo.size();i++) {
-	    	List<WebElement> columnNo = driver.findElements(By.cssSelector("table#table1 tbody tr:nth-child("+i+") td"));
-	    	for(int j=1;j<=columnNo.size();j++) {
-	    		System.out.print(driver.findElement(By.xpath("((//table[@id='table1']/tbody/tr)["+i+"]/td)["+j+"]")).getText()+", ");
-	    	}
-	    	System.out.println();
-	    }
-	    System.out.println("*************************");
-	    List<WebElement> rowsNo1 = driver.findElements(By.xpath("//table[@id='table2']/tbody/tr"));
-	    for(int i=1;i<=rowsNo.size();i++) {
-	    	List<WebElement> columnNo = driver.findElements(By.cssSelector("table#table2 tbody tr:nth-child("+i+") td"));
-	    	for(int j=1;j<=columnNo.size();j++) {
-	    		System.out.print(driver.findElement(By.xpath("((//table[@id='table2']/tbody/tr)["+i+"]/td)["+j+"]")).getText()+", ");
-	    	}
-	    	System.out.println();
-	    }
-	    driver.close();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Data Tables']")));
+		List<WebElement> rowsNo = driver.findElements(By.xpath("//table[@id='table1']/tbody/tr"));
+
+		for (int i = 1; i <= rowsNo.size(); i++) {
+			List<WebElement> columnNo = driver
+					.findElements(By.cssSelector("table#table1 tbody tr:nth-child(" + i + ") td"));
+			for (int j = 1; j <= columnNo.size(); j++) {
+				System.out.print(
+						driver.findElement(By.xpath("((//table[@id='table1']/tbody/tr)[" + i + "]/td)[" + j + "]"))
+								.getText() + ", ");
+			}
+			System.out.println();
+		}
+		System.out.println("*************************");
+		List<WebElement> rowsNo1 = driver.findElements(By.xpath("//table[@id='table2']/tbody/tr"));
+		for (int i = 1; i <= rowsNo.size(); i++) {
+			List<WebElement> columnNo = driver
+					.findElements(By.cssSelector("table#table2 tbody tr:nth-child(" + i + ") td"));
+			for (int j = 1; j <= columnNo.size(); j++) {
+				System.out.print(
+						driver.findElement(By.xpath("((//table[@id='table2']/tbody/tr)[" + i + "]/td)[" + j + "]"))
+								.getText() + ", ");
+			}
+			System.out.println();
+		}
+		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
@@ -173,8 +183,8 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//a[text()='Slow Resources']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Slow Resources']")));
-	    driver.close();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Slow Resources']")));
+		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
@@ -182,44 +192,48 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//a[text()='Shifting Content']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content']")));
-	    List<WebElement> links =  driver.findElements(By.cssSelector("div.example a"));
-	    ArrayList<String> Window1 = null;
-	    for(WebElement link : links) {
-	    	link.sendKeys(keys.ctlrClick());
-	    	try {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content']")));
+		List<WebElement> links = driver.findElements(By.cssSelector("div.example a"));
+		ArrayList<String> Window1 = null;
+		for (WebElement link : links) {
+			link.sendKeys(keys.ctlrClick());
+			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-	    	Window1 = browserRelated.multiWindowHandling(driver);
-	    }
-	    driver.switchTo().window(Window1.get(2));
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content: Menu Element']")));
-	    for(int i=0;i<3;i++) {
-	    	driver.findElement(By.xpath("(//a[text()='click here'])[1]")).click();
-	    	driver.findElement(By.xpath("(//a[text()='click here'])[2]")).click();
-	    	driver.findElement(By.xpath("(//a[text()='click here'])[3]")).click();
-	    }driver.close();
-	    
-	    driver.switchTo().window(Window1.get(3));
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content: Image']")));
-	    for(int i=0;i<3;i++) {
-	    	driver.findElement(By.xpath("(//a[text()='click here'])[1]")).click();
-	    	driver.findElement(By.xpath("(//a[text()='click here'])[2]")).click();
-	    	driver.findElement(By.xpath("(//a[text()='click here'])[3]")).click();
-	    	driver.findElement(By.xpath("(//a[text()='click here'])[4]")).click();
-	    }driver.close();
-	    
-	    driver.switchTo().window(Window1.get(4));
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content: List']")));
-	    for(int i=0;i<3;i++) {
-	    	driver.navigate().refresh();
-	    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content: List']")));
-	    }
-	    driver.close();
-	    driver.switchTo().window(Window.get(1));
-	    driver.close();
+			Window1 = browserRelated.multiWindowHandling(driver);
+		}
+		driver.switchTo().window(Window1.get(2));
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content: Menu Element']")));
+		for (int i = 0; i < 3; i++) {
+			driver.findElement(By.xpath("(//a[text()='click here'])[1]")).click();
+			driver.findElement(By.xpath("(//a[text()='click here'])[2]")).click();
+			driver.findElement(By.xpath("(//a[text()='click here'])[3]")).click();
+		}
+		driver.close();
+
+		driver.switchTo().window(Window1.get(3));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content: Image']")));
+		for (int i = 0; i < 3; i++) {
+			driver.findElement(By.xpath("(//a[text()='click here'])[1]")).click();
+			driver.findElement(By.xpath("(//a[text()='click here'])[2]")).click();
+			driver.findElement(By.xpath("(//a[text()='click here'])[3]")).click();
+			driver.findElement(By.xpath("(//a[text()='click here'])[4]")).click();
+		}
+		driver.close();
+
+		driver.switchTo().window(Window1.get(4));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content: List']")));
+		for (int i = 0; i < 3; i++) {
+			driver.navigate().refresh();
+			wait.until(
+					ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content: List']")));
+		}
+		driver.close();
+		driver.switchTo().window(Window.get(1));
+		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
@@ -227,14 +241,12 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//a[text()='Shadow DOM']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[text()='Simple template']")));
-	    Shadow shadow = new Shadow(driver);
-	    
-	    WebElement root1 = driver.findElement(By.tagName("my-paragraph"));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[text()='Simple template']")));
+		Shadow shadow = new Shadow(driver);
+
+		WebElement root1 = driver.findElement(By.tagName("my-paragraph"));
 		WebElement shadowRoot1 = browserRelated.expandRootElement(driver, root1);
 		shadowRoot1.findElement(By.xpath("//span[@slot='my-text']")).getText();
-	    
-	    
 
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
@@ -244,10 +256,10 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//a[text()='Secure File Download']")).sendKeys(keys.ctlrClick());
 		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
 		driver.switchTo().window(Window.get(1));
-	    driver.get("https://admin:admin@the-internet.herokuapp.com/download_secure");
-	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Secure File Downloader']")));
-	    List<WebElement> links = driver.findElements(By.xpath("//div[@class='example']/a"));
-		for(WebElement link : links) {
+		driver.get("https://admin:admin@the-internet.herokuapp.com/download_secure");
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Secure File Downloader']")));
+		List<WebElement> links = driver.findElements(By.xpath("//div[@class='example']/a"));
+		for (WebElement link : links) {
 			link.click();
 		}
 
@@ -265,12 +277,12 @@ public class herokuAppPage {
 		driver.switchTo().window(Window1.get(2));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Status Codes']")));
 		List<WebElement> links = driver.findElements(By.xpath("//a[contains(@href,'status_codes/')]"));
-		for(int i=1;i<=links.size();i++) {
-			String text = driver.findElement(By.xpath("(//a[contains(@href,'status_codes/')])["+i+"]")).getText();
-			driver.findElement(By.xpath("(//a[contains(@href,'status_codes/')])["+i+"]")).click();
+		for (int i = 1; i <= links.size(); i++) {
+			String text = driver.findElement(By.xpath("(//a[contains(@href,'status_codes/')])[" + i + "]")).getText();
+			driver.findElement(By.xpath("(//a[contains(@href,'status_codes/')])[" + i + "]")).click();
 			driver.switchTo().window(Window1.get(2));
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Status Codes']")));
-			By visi = By.xpath("//div[@class='example']/p[contains(text(),'"+text+" status code.')]");
+			By visi = By.xpath("//div[@class='example']/p[contains(text(),'" + text + " status code.')]");
 			wait.until(ExpectedConditions.visibilityOfElementLocated(visi));
 			driver.findElement(By.xpath("//a[normalize-space()='here']")).click();
 			driver.switchTo().window(Window1.get(2));
@@ -288,19 +300,18 @@ public class herokuAppPage {
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Notification Message']")));
 		String msg = driver.findElement(By.xpath("//div[@id='flash']")).getText().replace("\n", "!").split("!")[0];
-		if(msg.equals("Action successful")) {
+		if (msg.equals("Action successful")) {
 			do {
 				driver.findElement(By.xpath("//a[normalize-space()='Click here']")).click();
 				msg = driver.findElement(By.xpath("//div[@id='flash']")).getText().replace("\n", "!").split("!")[0];
-			}while(!msg.equals("Action unsuccesful, please try again"));
-		}else {
+			} while (!msg.equals("Action unsuccesful, please try again"));
+		} else {
 			Assert.assertEquals(msg.equals("Action unsuccesful, please try again"), true);
 			do {
 				driver.findElement(By.xpath("//a[normalize-space()='Click here']")).click();
 				msg = driver.findElement(By.xpath("//div[@id='flash']")).getText().replace("\n", "!").split("!")[0];
-			}while(!msg.equals("Action unsuccesful"));
+			} while (!msg.equals("Action successful"));
 		}
-
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
@@ -313,21 +324,21 @@ public class herokuAppPage {
 		driver.switchTo().frame("frame-top");
 		driver.switchTo().frame("frame-left");
 		Assert.assertEquals(driver.findElement(By.xpath("//html/body")).getText(), "LEFT");
-		
+
 		driver.switchTo().window(Window.get(1));
 		driver.switchTo().frame("frame-top");
 		driver.switchTo().frame("frame-middle");
 		Assert.assertEquals(driver.findElement(By.xpath("//html/body/div")).getText(), "MIDDLE");
-		
+
 		driver.switchTo().window(Window.get(1));
 		driver.switchTo().frame("frame-top");
 		driver.switchTo().frame("frame-right");
 		Assert.assertEquals(driver.findElement(By.xpath("//html/body")).getText(), "RIGHT");
-		
+
 		driver.switchTo().window(Window.get(1));
 		driver.switchTo().frame("frame-bottom");
 		Assert.assertEquals(driver.findElement(By.xpath("//html/body")).getText(), "BOTTOM");
-		
+
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
@@ -354,18 +365,19 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Large & Deep DOM']")));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[text()='No Siblings']")));
 		List<WebElement> value1 = driver.findElements(By.xpath("(//h4[text()='No Siblings']/parent::div/div)[1]//div"));
-		for(int i=value1.size();i>0;i--) {
-			if(i==value1.size()-1) {
+		for (int i = value1.size(); i > 0; i--) {
+			if (i == value1.size() - 1) {
 				Assert.assertEquals("No siblings", value1.get(i).getText());
 				break;
 			}
 		}
-		
+
 //		sibling 1. 
-		List<WebElement> value2 = driver.findElements(By.xpath("(//h4[text()='No Siblings']/parent::div/div)[2]//div[@id='siblings']//div[contains(@id,'sibling-1.')]"));
+		List<WebElement> value2 = driver.findElements(By.xpath(
+				"(//h4[text()='No Siblings']/parent::div/div)[2]//div[@id='siblings']//div[contains(@id,'sibling-1.')]"));
 		String value = value2.get(0).getText();
 //		System.out.println(value);
-		
+
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
@@ -384,8 +396,8 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[text()='You entered: SHIFT']")));
 //		Click on the ESCAPE an verify the response
 		textBox.sendKeys(Keys.ESCAPE);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[text()='You entered: ESCAPE']")));		
-	
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[text()='You entered: ESCAPE']")));
+
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
@@ -533,7 +545,7 @@ public class herokuAppPage {
 			link.sendKeys(keys.ctlrClick());
 		}
 		ArrayList<String> Window1 = browserRelated.multiWindowHandling(driver);
-		driver.switchTo().window(Window1.get(2));
+		driver.switchTo().window(Window1.get(3));
 
 		// iFrame
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -543,26 +555,26 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//body[@id='tinymce']")).clear();
 		action.moveToElement(driver.findElement(By.xpath("//body[@id='tinymce']"))).click().sendKeys("Hello World!")
 				.build().perform();
-		driver.switchTo().window(Window1.get(2));
+		driver.switchTo().window(Window1.get(3));
 		driver.close();
 
 		// Nested frame
-		driver.switchTo().window(Window1.get(3));
+		driver.switchTo().window(Window1.get(2));
 		driver.switchTo().frame("frame-top");
 		driver.switchTo().frame("frame-left");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//body[contains(text(),'LEFT')]")));
-		driver.switchTo().window(Window1.get(3));
+		driver.switchTo().window(Window1.get(2));
 		driver.switchTo().frame("frame-top");
 		driver.switchTo().frame("frame-middle");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'MIDDLE')]")));
-		driver.switchTo().window(Window1.get(3));
+		driver.switchTo().window(Window1.get(2));
 		driver.switchTo().frame("frame-top");
 		driver.switchTo().frame("frame-right");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//body[contains(text(),'RIGHT')]")));
-		driver.switchTo().window(Window1.get(3));
+		driver.switchTo().window(Window1.get(2));
 		driver.switchTo().frame("frame-bottom");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//body[contains(text(),'BOTTOM')]")));
-		driver.switchTo().window(Window1.get(3));
+		driver.switchTo().window(Window1.get(2));
 		driver.close();
 
 		driver.switchTo().window(Window.get(1));
@@ -791,18 +803,36 @@ public class herokuAppPage {
 		List<WebElement> links = driver.findElements(By.xpath("//div[@id='content']//ul//a"));
 		for (WebElement link : links) {
 			link.sendKeys(keys.ctlrClick());
-//			Window1 = browserRelated.multiWindowHandling(driver);
 		}
 		Window1 = browserRelated.multiWindowHandling(driver);
 		for (int i = Window1.size(); i > Window1.size() - 4; i--) {
 			driver.switchTo().window(Window1.get(i - 1));
-//			System.out.println(driver.getTitle());
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			driver.close();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Disappearing Elements']")));
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static void digestAuthentication() {
