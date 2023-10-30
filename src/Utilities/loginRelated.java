@@ -116,4 +116,14 @@ public class loginRelated {
 		return driver;
 	}
 	
+	public static WebDriver loginpagePractise() {
+		WebDriverManager.chromedriver().setup();
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://rahulshettyacademy.com/loginpagePractise/");
+		driver.manage().window().maximize();
+//		implicit wait
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		return driver;
+	}
+	
 }
