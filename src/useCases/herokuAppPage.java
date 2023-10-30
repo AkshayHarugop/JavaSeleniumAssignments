@@ -107,15 +107,15 @@ public class herokuAppPage {
 	    	}
 	    	System.out.println();
 	    }
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
+	    System.out.println("*************************");
+	    List<WebElement> rowsNo1 = driver.findElements(By.xpath("//table[@id='table2']/tbody/tr"));
+	    for(int i=1;i<=rowsNo.size();i++) {
+	    	List<WebElement> columnNo = driver.findElements(By.cssSelector("table#table2 tbody tr:nth-child("+i+") td"));
+	    	for(int j=1;j<=columnNo.size();j++) {
+	    		System.out.print(driver.findElement(By.xpath("((//table[@id='table2']/tbody/tr)["+i+"]/td)["+j+"]")).getText()+", ");
+	    	}
+	    	System.out.println();
+	    }
 	    driver.close();
 		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
