@@ -87,9 +87,37 @@ public class herokuAppPage {
 //		secureFileDownload();
 //		shadowDOM(); // Pending
 //		shiftingContent();
-		slowResources();
+//		slowResources();
+		sortableDataTables();
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void sortableDataTables() {
+		driver.findElement(By.xpath("//a[text()='Sortable Data Tables']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Data Tables']")));
+	    List<WebElement> rowsNo = driver.findElements(By.xpath("//table[@id='table1']/tbody/tr"));
+	    
+	    for(int i=1;i<=rowsNo.size();i++) {
+	    	List<WebElement> columnNo = driver.findElements(By.cssSelector("table#table1 tbody tr:nth-child("+i+") td"));
+	    	for(int j=1;j<=columnNo.size();j++) {
+	    		System.out.print(driver.findElement(By.xpath("((//table[@id='table1']/tbody/tr)["+i+"]/td)["+j+"]")).getText()+", ");
+	    	}
+	    	System.out.println();
+	    }
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void slowResources() {
