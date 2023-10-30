@@ -86,9 +86,19 @@ public class herokuAppPage {
 //		redirectLink();
 //		secureFileDownload();
 //		shadowDOM(); // Pending
-		shiftingContent();
+//		shiftingContent();
+		slowResources();
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void slowResources() {
+		driver.findElement(By.xpath("//a[text()='Slow Resources']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Slow Resources']")));
+	    driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void shiftingContent() {
