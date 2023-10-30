@@ -90,9 +90,24 @@ public class herokuAppPage {
 //		slowResources();
 //		sortableDataTables();
 //		statusCodes();
-		Typos();
+//		Typos();
+		wYSIWYGEditor();
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void wYSIWYGEditor() {
+		driver.findElement(By.xpath("//a[text()='WYSIWYG Editor']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='An iFrame containing the TinyMCE WYSIWYG Editor']")));
+	    driver.switchTo().frame(driver.findElement(By.xpath("//iframe[contains(@id,'mce_')][contains(@id,'_ifr')]")));
+	    Actions action = new Actions(driver);
+	    WebElement content = driver.findElement(By.xpath("//body[@id='tinymce']"));
+	    content.clear();
+	    action.moveToElement(content).click().sendKeys("hello Hi How are you !!").build().perform();
+	    driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void Typos() {
