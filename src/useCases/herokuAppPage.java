@@ -25,6 +25,8 @@ import org.testng.annotations.Test;
 import Utilities.browserRelated;
 import Utilities.keys;
 import Utilities.loginRelated;
+import io.github.sukgu.Shadow;
+
 
 public class herokuAppPage {
 	static WebDriver driver;
@@ -82,9 +84,73 @@ public class herokuAppPage {
 //		nestedFrames();
 //		notificationMessages();
 //		redirectLink();
-		secureFileDownload();
+//		secureFileDownload();
+//		shadowDOM(); // Pending
+		shiftingContent();
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void shiftingContent() {
+		driver.findElement(By.xpath("//a[text()='Shifting Content']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content']")));
+	    List<WebElement> links =  driver.findElements(By.cssSelector("div.example a"));
+	    ArrayList<String> Window1 = null;
+	    for(WebElement link : links) {
+	    	link.sendKeys(keys.ctlrClick());
+	    	try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+	    	Window1 = browserRelated.multiWindowHandling(driver);
+	    }
+	    driver.switchTo().window(Window1.get(2));
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content: Menu Element']")));
+	    for(int i=0;i<3;i++) {
+	    	driver.findElement(By.xpath("(//a[text()='click here'])[1]")).click();
+	    	driver.findElement(By.xpath("(//a[text()='click here'])[2]")).click();
+	    	driver.findElement(By.xpath("(//a[text()='click here'])[3]")).click();
+	    }driver.close();
+	    
+	    driver.switchTo().window(Window1.get(3));
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content: Image']")));
+	    for(int i=0;i<3;i++) {
+	    	driver.findElement(By.xpath("(//a[text()='click here'])[1]")).click();
+	    	driver.findElement(By.xpath("(//a[text()='click here'])[2]")).click();
+	    	driver.findElement(By.xpath("(//a[text()='click here'])[3]")).click();
+	    	driver.findElement(By.xpath("(//a[text()='click here'])[4]")).click();
+	    }driver.close();
+	    
+	    driver.switchTo().window(Window1.get(4));
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content: List']")));
+	    for(int i=0;i<3;i++) {
+	    	driver.navigate().refresh();
+	    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Shifting Content: List']")));
+	    }
+	    driver.close();
+	    driver.switchTo().window(Window.get(1));
+	    driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+	}
+
+	private static void shadowDOM() {
+		driver.findElement(By.xpath("//a[text()='Shadow DOM']")).sendKeys(keys.ctlrClick());
+		ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		driver.switchTo().window(Window.get(1));
+	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[text()='Simple template']")));
+	    Shadow shadow = new Shadow(driver);
+	    
+	    WebElement root1 = driver.findElement(By.tagName("my-paragraph"));
+		WebElement shadowRoot1 = browserRelated.expandRootElement(driver, root1);
+		shadowRoot1.findElement(By.xpath("//span[@slot='my-text']")).getText();
+	    
+	    
+
+		driver.close();
+		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void secureFileDownload() {
