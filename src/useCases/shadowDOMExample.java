@@ -14,7 +14,7 @@ import org.testng.Assert;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class ShadowDOMExample {
+public class shadowDOMExample {
 	static WebDriver driver;
 
 	public static void main(String[] args) {
