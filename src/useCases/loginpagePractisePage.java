@@ -43,7 +43,6 @@ public class loginpagePractisePage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='signInBtn'][@value='Signing ..']")));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[@class='my-4'][text()='Shop Name']")));
 		driver.close();
-		
 	}
 
 }
