@@ -126,4 +126,13 @@ public class loginRelated {
 		return driver;
 	}
 	
+	public static WebDriver angularPracticeShop() {
+		WebDriverManager.chromedriver().setup();
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://rahulshettyacademy.com/angularpractice/shop");
+		driver.manage().window().maximize();
+//		implicit wait
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		return driver;
+	}
 }
