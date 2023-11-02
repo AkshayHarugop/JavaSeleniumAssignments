@@ -1,4 +1,4 @@
-package Utilities;
+package utilities;
 
 import java.time.Duration;
 import java.util.HashMap;

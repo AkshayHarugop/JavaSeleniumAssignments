@@ -22,10 +22,10 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import Utilities.browserRelated;
-import Utilities.keys;
-import Utilities.loginRelated;
 import io.github.sukgu.Shadow;
+import utilities.browserRelated;
+import utilities.keys;
+import utilities.loginRelated;
 
 public class herokuAppPage {
 	static WebDriver driver;
@@ -109,7 +109,7 @@ public class herokuAppPage {
 		content.clear();
 		action.moveToElement(content).click().sendKeys("hello Hi How are you !!").build().perform();
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void Typos() {
@@ -130,7 +130,7 @@ public class herokuAppPage {
 			}
 		}
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void statusCodes() {
@@ -143,7 +143,7 @@ public class herokuAppPage {
 			System.out.println(link.getText());
 		}
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void sortableDataTables() {
@@ -176,7 +176,7 @@ public class herokuAppPage {
 			System.out.println();
 		}
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void slowResources() {
@@ -185,7 +185,7 @@ public class herokuAppPage {
 		driver.switchTo().window(Window.get(1));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Slow Resources']")));
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void shiftingContent() {
@@ -234,7 +234,7 @@ public class herokuAppPage {
 		driver.close();
 		driver.switchTo().window(Window.get(1));
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void shadowDOM() {
@@ -249,7 +249,7 @@ public class herokuAppPage {
 		shadowRoot1.findElement(By.xpath("//span[@slot='my-text']")).getText();
 
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void secureFileDownload() {
@@ -264,7 +264,7 @@ public class herokuAppPage {
 		}
 
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void redirectLink() {
@@ -291,7 +291,7 @@ public class herokuAppPage {
 		driver.close();
 		driver.switchTo().window(Window.get(1));
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void notificationMessages() {
@@ -313,7 +313,7 @@ public class herokuAppPage {
 			} while (!msg.equals("Action successful"));
 		}
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void nestedFrames() {
@@ -340,7 +340,7 @@ public class herokuAppPage {
 		Assert.assertEquals(driver.findElement(By.xpath("//html/body")).getText(), "BOTTOM");
 
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void multipleWindows() {
@@ -355,7 +355,7 @@ public class herokuAppPage {
 		driver.close();
 		driver.switchTo().window(Window.get(1));
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void largeDeepDOM() {
@@ -379,7 +379,7 @@ public class herokuAppPage {
 //		System.out.println(value);
 
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void keyPresses() {
@@ -399,7 +399,7 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[text()='You entered: ESCAPE']")));
 
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void javaScriptOnloadEventError() {
@@ -410,7 +410,7 @@ public class herokuAppPage {
 		By error = By.xpath("//p[contains(text(),'JavaScript error')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(error));
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void javaScriptAlerts() {
@@ -441,7 +441,7 @@ public class herokuAppPage {
 		pop1.sendKeys("Welcome to Selenium 4");
 		pop1.accept();
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void jQueryUIMenus() {
@@ -458,7 +458,7 @@ public class herokuAppPage {
 //		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='ui-menu-item']/a[text()='Back to JQuery UI']")));
 
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void inputs() {
@@ -473,7 +473,7 @@ public class herokuAppPage {
 			action.moveToElement(input).click().sendKeys(Keys.ARROW_UP).build().perform();
 		}
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void infiniteScroll() throws InterruptedException {
@@ -487,7 +487,7 @@ public class herokuAppPage {
 			Thread.sleep(1000);
 		}
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void hovers() {
@@ -501,7 +501,7 @@ public class herokuAppPage {
 			action.moveToElement(userAvatar).build().perform();
 		}
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void horizontalSlider() {
@@ -517,7 +517,7 @@ public class herokuAppPage {
 		action.moveByOffset(6, 0).build().perform();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@id='range'][text()='2.5']")));
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void geolocation() {
@@ -532,7 +532,7 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@onclick='getLocation()']")));
 		driver.findElement(By.xpath("//button[@onclick='getLocation()']")).click();
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void frames() {
@@ -579,7 +579,7 @@ public class herokuAppPage {
 
 		driver.switchTo().window(Window.get(1));
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void formAuthentication() {
@@ -593,7 +593,7 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
 				By.xpath("//div[@id='flash'][contains(text(),'Your username is invalid!')]")));
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void forgotPassword() {
@@ -605,7 +605,7 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//button[@id='form_submit']/i")).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[text()='Internal Server Error']")));
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void floatingMenu() {
@@ -628,7 +628,7 @@ public class herokuAppPage {
 		action.moveToElement(driver.findElement(By.xpath("//div[@id='menu']//li/a[text()='About']"))).click().build()
 				.perform();
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void fileUpload() {
@@ -643,7 +643,7 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//input[@id='file-submit']")).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='File Uploaded!']")));
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void fileDownload() {
@@ -657,7 +657,7 @@ public class herokuAppPage {
 		}
 
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void exitIntent() {
@@ -667,7 +667,7 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Exit Intent']")));
 
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void entryAd() {
@@ -684,7 +684,7 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//div[@class='modal-footer']/p")).click();
 
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void dynamicLoading() {
@@ -726,7 +726,7 @@ public class herokuAppPage {
 		driver.close();
 		driver.switchTo().window(Window.get(1));
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void dynamicControls() {
@@ -753,7 +753,7 @@ public class herokuAppPage {
 				.visibilityOfElementLocated(By.xpath("(//div[@id='loading'][text()='Wait for it... '])[3]")));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@type='text'][@disabled='']")));
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void dynamicContent() {
@@ -763,7 +763,7 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='Dynamic Content']")));
 		driver.findElement(By.xpath("//a[text()='click here']")).click();
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void dropDown() {
@@ -776,7 +776,7 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.xpath("//option[@selected='selected'][text()='Option 1']")));
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void dragAndDrop() {
@@ -791,7 +791,7 @@ public class herokuAppPage {
 		wait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.cssSelector("div#content div#column-a[style='opacity: 1;']")));
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void disappearingElements() {
@@ -827,7 +827,7 @@ public class herokuAppPage {
 			e.printStackTrace();
 		}
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -850,7 +850,7 @@ public class herokuAppPage {
 		Assert.assertEquals("You selected a context menu", driver.switchTo().alert().getText());
 		driver.switchTo().alert().accept();
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void checkBoxes() {
@@ -865,7 +865,7 @@ public class herokuAppPage {
 		driver.findElement(By.xpath("//input[2]")).click();
 		Assert.assertEquals(false, driver.findElement(By.xpath("//input[2]")).isSelected());
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void challengingDOM() {
@@ -885,7 +885,7 @@ public class herokuAppPage {
 			System.out.println();
 		}
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	private static void brokenImages() {
@@ -900,7 +900,7 @@ public class herokuAppPage {
 			}
 		}
 		driver.close();
-		driver.switchTo().window(Utilities.browserRelated.parentWindow(driver));
+		driver.switchTo().window(utilities.browserRelated.parentWindow(driver));
 	}
 
 	@Test

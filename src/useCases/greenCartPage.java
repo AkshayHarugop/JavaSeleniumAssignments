@@ -12,15 +12,15 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import Utilities.browserRelated;
+import utilities.browserRelated;
 
 public class greenCartPage {
 	static WebDriver driver;
 	static WebDriverWait wait;
 
 	public static void main(String[] args) {
-		driver = Utilities.loginRelated.greenKartLogin();
-		wait = Utilities.loginRelated.wait(driver);
+		driver = utilities.loginRelated.greenKartLogin();
+		wait = utilities.loginRelated.wait(driver);
 		addAllVegies();
 		topDeals();
 	}

@@ -13,9 +13,9 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import Utilities.browserRelated;
-import Utilities.keys;
-import Utilities.loginRelated;
+import utilities.browserRelated;
+import utilities.keys;
+import utilities.loginRelated;
 
 public class automationPracticePage1 {
 	static WebDriver driver;

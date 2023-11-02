@@ -9,16 +9,16 @@ public class expiredBadSSL {
 	static WebDriverWait wait;
 
 	public static void main(String[] args) {
-		driver = Utilities.loginRelated.expiredBadSSLLoginChrome();
-		wait = Utilities.loginRelated.wait(driver);
+		driver = utilities.loginRelated.expiredBadSSLLoginChrome();
+		wait = utilities.loginRelated.wait(driver);
 		chrome();
 		driver.close();
 		
-		driver = Utilities.loginRelated.expiredBadSSLLoginFirefox();
+		driver = utilities.loginRelated.expiredBadSSLLoginFirefox();
 		firefox();
 		driver.close();
 		
-		driver = Utilities.loginRelated.expiredBadSSLLoginEdge();
+		driver = utilities.loginRelated.expiredBadSSLLoginEdge();
 		edge();
 		driver.close();
 	}

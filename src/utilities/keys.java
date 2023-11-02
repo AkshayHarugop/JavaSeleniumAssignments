@@ -1,4 +1,4 @@
-package Utilities;
+package utilities;
 
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
