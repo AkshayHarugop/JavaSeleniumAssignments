@@ -81,7 +81,7 @@ public class angularPracticeShopPage {
 		driver.findElement(By.xpath("//button[@class='btn btn-success']")).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='country'][contains(text(),'Please choose your delivery location.')]")));
 		
-//		selecting country name
+//		selecting country name 
 		driver.findElement(By.xpath("//input[@id='country']")).sendKeys("Ind");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='suggestions']")));
 		List<WebElement> countries = driver.findElements(By.xpath("//div[@class='suggestions']/ul/li/a"));
