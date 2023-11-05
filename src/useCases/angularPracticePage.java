@@ -1,5 +1,7 @@
 package useCases;
 
+import java.io.File;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,6 +11,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import utilities.browserRelated;
 import utilities.loginRelated;
 
 public class angularPracticePage {
@@ -17,8 +20,10 @@ public class angularPracticePage {
 	static WebDriverWait wait = loginRelated.wait(driver);
 	
 	public static void main(String[] args) {
+		System.out.println("Start");
 		data();
 		driver.quit();
+		System.out.println("End");
 	}
 
 	private static void data() {
@@ -44,6 +49,9 @@ public class angularPracticePage {
 		
 //		click on submit button
 		driver.findElement(By.xpath("//input[@value='Submit']")).click();
+		
+		//take the screen shot
+		browserRelated.screenShot(driver,new File("C:\\Users\\aha5\\Desktop\\screenshot.PNG"));
 		driver.close();
 	}
 
