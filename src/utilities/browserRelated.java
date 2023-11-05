@@ -53,7 +53,7 @@ public class browserRelated {
 		try {
 			FileUtils.copyFile(src, file);
 		} catch (IOException e) {
-			System.out.println("could took the screenshot because of below possible reasons\n1. change the directory if you are using the C driver to store.");
+			System.out.println("could not took the screenshot because of below possible reasons\n1. change the directory if you are using the C driver to store.");
 			e.printStackTrace();
 		}
 	}
