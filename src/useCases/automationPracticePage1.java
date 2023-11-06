@@ -1,5 +1,9 @@
 package useCases;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +16,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
 import utilities.browserRelated;
 import utilities.keys;
@@ -25,57 +30,86 @@ public class automationPracticePage1 {
 		System.out.println("start");
 		driver = loginRelated.automationPracticePageLogin();
 		wait = loginRelated.wait(driver);
-		radioButtonValidation();
-		suggessionClassExample();
-		dropdownExample();
-		checkboxExample();
-//		switchWindowExample();
-//		switchTabExample();
-		switchToAlertExample("Testing!");
-		webTableExample(235);
-		elementDisplayedExample("Testing!");
-		webTableFixedheader(296);
-		mouseHoverExample();
-		iFrameExample();
-		footer();
+//		radioButtonValidation();
+//		suggessionClassExample();
+//		dropdownExample();
+//		checkboxExample();
+////		switchWindowExample();
+////		switchTabExample();
+//		switchToAlertExample("Testing!");
+//		webTableExample(235);
+//		elementDisplayedExample("Testing!");
+//		webTableFixedheader(296);
+//		mouseHoverExample();
+//		iFrameExample();
+//		footer();
+		brokenLinkChecks();
 		driver.close();
 		System.out.println("End");
 	}
 
-	private static void footer() {
-		/*WebElement footer = driver.findElement(By.cssSelector("div#gf-BIG"));
-		List<WebElement> links = footer.findElements(By.tagName("a"));
-		Assert.assertEquals(20, links.size());
-		WebElement discountCoupons = footer.findElement(By.cssSelector("td:nth-child(1)"));
-		List<WebElement> dClinks = discountCoupons.findElements(By.cssSelector("a"));
-		Assert.assertEquals(5, dClinks.size());
-		ArrayList<String> Window = null;
-		for(WebElement dClink : dClinks) {
-			dClink.sendKeys(keys.ctlrClick());
-			Window =  browserRelated.multiWindowHandling(driver);
-			
+	private static void brokenLinkChecks() {
+		WebElement footer = driver.findElement(By.cssSelector("div[class*='col-sm-8 right-align']"));
+//		Scroll to the footer element
+		Actions action = new Actions(driver);
+//		action.scrollToElement(footer).build().perform();
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		jse.executeScript("arguments[0].scrollIntoView(true);", footer);
+		List<WebElement> links = driver.findElements(By.cssSelector("li.gf-li a"));
+		SoftAssert sa = new SoftAssert();
+		for (WebElement lin : links) {
+			String link = lin.getAttribute("href");
+//		String link = driver.findElement(By.cssSelector("a[href*='brokenlink']")).getAttribute("href");
+//			System.out.println(link);
+			try {
+				HttpURLConnection conn = (HttpURLConnection) new URL(link).openConnection();
+				conn.setRequestMethod("HEAD");
+				conn.connect();
+				System.out.println(conn.getResponseCode());
+				sa.assertTrue(conn.getResponseCode() < 400,
+						"The link with the Text " + link + " is broken with the code " + conn.getResponseCode());
+
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
 		}
-//		ArrayList<String> Window =  browserRelated.multiWindowHandling(driver);
-		for(int i=0;i<Window.size();i++) {
-			driver.switchTo().window(Window.get(i));
-			System.out.println(driver.getTitle());
-			driver.close();
-		}*/
-		
+		sa.assertAll();		
+
+	}
+
+	private static void footer() {
+		/*
+		 * WebElement footer = driver.findElement(By.cssSelector("div#gf-BIG"));
+		 * List<WebElement> links = footer.findElements(By.tagName("a"));
+		 * Assert.assertEquals(20, links.size()); WebElement discountCoupons =
+		 * footer.findElement(By.cssSelector("td:nth-child(1)")); List<WebElement>
+		 * dClinks = discountCoupons.findElements(By.cssSelector("a"));
+		 * Assert.assertEquals(5, dClinks.size()); ArrayList<String> Window = null;
+		 * for(WebElement dClink : dClinks) { dClink.sendKeys(keys.ctlrClick()); Window
+		 * = browserRelated.multiWindowHandling(driver);
+		 * 
+		 * } // ArrayList<String> Window = browserRelated.multiWindowHandling(driver);
+		 * for(int i=0;i<Window.size();i++) { driver.switchTo().window(Window.get(i));
+		 * System.out.println(driver.getTitle()); driver.close(); }
+		 */
+
 		ArrayList<String> Window = null;
 		WebElement footer = driver.findElement(By.cssSelector("div#gf-BIG"));
 		List<WebElement> links = footer.findElements(By.tagName("a"));
 		Assert.assertEquals(20, links.size());
-		for(WebElement link : links) {
+		for (WebElement link : links) {
 			link.sendKeys(keys.ctlrClick());
-			Window =  browserRelated.multiWindowHandling(driver);
+			Window = browserRelated.multiWindowHandling(driver);
 		}
-		for(int i=0;i<Window.size();i++) {
+		for (int i = 0; i < Window.size(); i++) {
 			driver.switchTo().window(Window.get(i));
 			System.out.println(driver.getTitle());
 //			driver.close();
 		}
-		
+
 	}
 
 	private static void iFrameExample() {
@@ -195,29 +229,26 @@ public class automationPracticePage1 {
 		driver.switchTo().alert().accept();
 
 	}
-/*
-	private static void switchTabExample() {
-//		Switch Tab Example
-		driver.findElement(By.id("opentab")).click();
-		driver.switchTo().window(browserRelated.multiWindowHandling(driver));
-		driver.manage().window().maximize();
-//		click on the courses on the 2nd window
-		driver.findElement(By.xpath("//li[@class='nav-item']/a[text()='Courses']")).click();
-		driver.close();
-		driver.switchTo().window(browserRelated.parentWindow(driver));
-	}
 
-	private static void switchWindowExample() {
-//		Switch Window Example
-		driver.findElement(By.id("openwindow")).click();
-		driver.switchTo().window(browserRelated.multiWindowHandling(driver));
-		driver.manage().window().maximize();
-//		click on the courses on the 2nd window
-		driver.findElement(By.xpath("//li[@class='nav-item']/a[text()='Courses']")).click();
-		driver.close();
-		driver.switchTo().window(browserRelated.parentWindow(driver));
-	}
-*/
+	/*
+	 * private static void switchTabExample() { // Switch Tab Example
+	 * driver.findElement(By.id("opentab")).click();
+	 * driver.switchTo().window(browserRelated.multiWindowHandling(driver));
+	 * driver.manage().window().maximize(); // click on the courses on the 2nd
+	 * window
+	 * driver.findElement(By.xpath("//li[@class='nav-item']/a[text()='Courses']")).
+	 * click(); driver.close();
+	 * driver.switchTo().window(browserRelated.parentWindow(driver)); }
+	 * 
+	 * private static void switchWindowExample() { // Switch Window Example
+	 * driver.findElement(By.id("openwindow")).click();
+	 * driver.switchTo().window(browserRelated.multiWindowHandling(driver));
+	 * driver.manage().window().maximize(); // click on the courses on the 2nd
+	 * window
+	 * driver.findElement(By.xpath("//li[@class='nav-item']/a[text()='Courses']")).
+	 * click(); driver.close();
+	 * driver.switchTo().window(browserRelated.parentWindow(driver)); }
+	 */
 	private static void checkboxExample() {
 //		Checkbox Example
 		List<WebElement> checkBoxList = driver
