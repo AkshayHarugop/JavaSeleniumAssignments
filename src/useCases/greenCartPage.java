@@ -2,6 +2,7 @@ package useCases;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -21,8 +22,47 @@ public class greenCartPage {
 	public static void main(String[] args) {
 		driver = utilities.loginRelated.greenKartLogin();
 		wait = utilities.loginRelated.wait(driver);
-		addAllVegies();
-		topDeals();
+//		addAllVegies();
+//		topDeals();
+		topDealsStream();
+		driver.close();
+	}
+
+	private static void topDealsStream() {
+//		click on the top deals
+		driver.findElement(By.xpath("//a[normalize-space()='Top Deals']")).click();
+		driver.switchTo().window(browserRelated.multiWindowHandling(driver).get(1));
+		WebElement pageSize = driver.findElement(By.xpath("//div[@class='container']//select[@id='page-menu']"));
+		Select s = new Select(pageSize);
+		s.selectByValue("5");
+		driver.findElement(By.xpath("//tr/th[1]")).click();
+		List<WebElement> vegieeNames = driver.findElements(By.xpath("//tr/td[1]"));
+
+		List<String> vegieWithoutSort = vegieeNames.stream().map(vegiee -> vegiee.getText())
+				.collect(Collectors.toList());
+		List<String> vegieWithSort = vegieeNames.stream().map(vegiee -> vegiee.getText()).sorted()
+				.collect(Collectors.toList());
+		Assert.assertTrue(vegieWithoutSort.equals(vegieWithSort));
+		List<String> price;
+
+		do {
+			List<WebElement> vegieeNames1 = driver.findElements(By.xpath("//tr/td[1]"));
+			price = vegieeNames1.stream().filter(v -> v.getText().equals("Rice")).map(v -> getVegiePrice(v))
+					.collect(Collectors.toList());
+			price.forEach(v -> System.out.println(v));
+			if (price.size() < 1) {
+				driver.findElement(By.cssSelector("[aria-label='Next']")).click();
+			}
+		} while (price.size() < 1);
+
+		driver.close();
+		driver.switchTo().window(browserRelated.parentWindow(driver));
+
+	}
+
+	private static String getVegiePrice(WebElement s) {
+		return s.findElement(By.xpath("following-sibling::td[1]")).getText();
+
 	}
 
 	private static void topDeals() {
@@ -56,7 +96,6 @@ public class greenCartPage {
 		System.out.println(dP);
 		driver.close();
 		driver.switchTo().window(browserRelated.parentWindow(driver));
-		driver.close();
 	}
 
 	private static void addAllVegies() {
