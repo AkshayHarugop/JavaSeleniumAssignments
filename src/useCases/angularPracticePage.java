@@ -14,6 +14,8 @@ import org.testng.Assert;
 import utilities.browserRelated;
 import utilities.loginRelated;
 
+import static org.openqa.selenium.support.locators.RelativeLocator.*;
+
 public class angularPracticePage {
 
 	static WebDriver driver = loginRelated.angularPractice();
@@ -21,9 +23,27 @@ public class angularPracticePage {
 	
 	public static void main(String[] args) {
 		System.out.println("Start");
+		relativeLocator();
 		data();
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void relativeLocator() {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='form-group']/input[@name='name']")));
+		WebElement nameEditBox = driver.findElement(By.xpath("//div[@class='form-group']/input[@name='name']"));
+		String value1 = driver.findElement(with(By.tagName("label")).above(nameEditBox)).getText();
+		Assert.assertEquals("Name", value1);
+		
+		WebElement dateofBirth = driver.findElement(By.cssSelector("[for='dateofBirth']"));
+		driver.findElement(with(By.tagName("input")).below(dateofBirth)).click();
+		
+		WebElement iceCreamLabel =driver.findElement(By.xpath("//label[text()='Check me out if you Love IceCreams!']"));
+		driver.findElement(with(By.tagName("input")).toLeftOf(iceCreamLabel)).click();
+
+		WebElement rdb = driver.findElement(By.id("inlineRadio1"));
+		String value2 = driver.findElement(with(By.tagName("label")).toRightOf(rdb)).getText();
+		Assert.assertEquals("Student", value2);
 	}
 
 	private static void data() {
@@ -31,9 +51,9 @@ public class angularPracticePage {
 		driver.findElement(By.xpath("(//input[@name='name'])[1]")).sendKeys("Akshay");
 		driver.findElement(By.xpath("//input[@name='email']")).sendKeys("akshayharugop@gmail.com");
 		driver.findElement(By.xpath("//input[@id='exampleInputPassword1']")).sendKeys("Akshay@123");
-		Assert.assertEquals(driver.findElement(By.id("exampleCheck1")).isSelected(), false);
-		driver.findElement(By.id("exampleCheck1")).click();
 		Assert.assertEquals(driver.findElement(By.id("exampleCheck1")).isSelected(), true);
+		driver.findElement(By.id("exampleCheck1")).click();
+		Assert.assertEquals(driver.findElement(By.id("exampleCheck1")).isSelected(), false);
 		WebElement select = driver.findElement(By.id("exampleFormControlSelect1"));
 		Select s = new Select(select);
 		s.selectByVisibleText("Male");
