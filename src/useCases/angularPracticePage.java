@@ -5,6 +5,7 @@ import java.io.File;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -23,10 +24,22 @@ public class angularPracticePage {
 	
 	public static void main(String[] args) {
 		System.out.println("Start");
+		addingNewTabInBrowserAndWorking();
 		relativeLocator();
 		data();
 		driver.quit();
 		System.out.println("End");
+	}
+
+	private static void addingNewTabInBrowserAndWorking() {
+		driver.switchTo().newWindow(WindowType.TAB);
+		driver.switchTo().window(browserRelated.multiWindowHandling(driver).get(1));
+		driver.get("https://rahulshettyacademy.com/angularpractice/shop");
+		String value = driver.findElement(By.xpath("(//a[@class='navbar-brand'])[2]")).getText();
+		driver.close();
+		driver.switchTo().window(browserRelated.parentWindow(driver));
+		driver.findElement(By.xpath("//div[@class='form-group']/input[@name='name']")).sendKeys(value);
+		
 	}
 
 	private static void relativeLocator() {
