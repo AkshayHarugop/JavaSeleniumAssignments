@@ -1,8 +1,11 @@
 package useCases;
 
 import java.io.File;
+import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
@@ -22,7 +25,7 @@ public class angularPracticePage {
 	static WebDriver driver = loginRelated.angularPractice();
 	static WebDriverWait wait = loginRelated.wait(driver);
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		System.out.println("Start");
 		addingNewTabInBrowserAndWorking();
 		relativeLocator();
@@ -59,7 +62,7 @@ public class angularPracticePage {
 		Assert.assertEquals("Student", value2);
 	}
 
-	private static void data() {
+	private static void data() throws IOException {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[text()='Protractor Tutorial']")));
 		driver.findElement(By.xpath("(//input[@name='name'])[1]")).sendKeys("Akshay");
 		driver.findElement(By.xpath("//input[@name='email']")).sendKeys("akshayharugop@gmail.com");
@@ -83,8 +86,21 @@ public class angularPracticePage {
 //		click on submit button
 		driver.findElement(By.xpath("//input[@value='Submit']")).click();
 		
-		//take the screen shot
+//		take the screen shot
 		browserRelated.screenShot(driver,new File("C:\\Users\\aha5\\Desktop\\screenshot.PNG"));
+		
+//		Partial screenshot
+		WebElement name = driver.findElement(By.xpath("(//input[@name='name'])[1]"));
+		name.clear();
+		name.sendKeys("Akshay");
+		File file = name.getScreenshotAs(OutputType.FILE);
+		FileUtils.copyFile(file, new File("C:\\Users\\aha5\\Desktop\\partialScreenshot.PNG"));
+		
+//		Get height and width of the element for UI UX validation 
+		System.out.println(name.getRect().getDimension().getHeight());
+		System.out.println(name.getRect().getDimension().getWidth());
+		
+		
 		driver.close();
 	}
 
