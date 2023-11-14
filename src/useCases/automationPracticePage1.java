@@ -23,6 +23,7 @@ import utilities.keys;
 import utilities.loginRelated;
 
 public class automationPracticePage1 {
+	
 	static WebDriver driver;
 	static WebDriverWait wait;
 
